@@ -1,0 +1,21 @@
+---
+version: "0.1"
+globalTimeout: 100
+testSuiteTimeout: 100
+testSuiteStep: 100
+runson: linux
+autosplit: true
+retryOnFailure: false
+maxRetries: 1
+concurrency: 2
+pre:
+  - npm install
+  - npx playwright install
+cacheKey: '{{ checksum "package-lock.json" }}'
+cacheDirectories:
+  - node_modules
+testDiscovery:
+  type: raw
+  mode: dynamic
+  command: grep -lr 'test(' tests
+testRunnerCommand: npx playwright test $test
